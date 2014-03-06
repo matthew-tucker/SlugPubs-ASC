@@ -1,0 +1,749 @@
+% \iffalse meta-comment 
+% 
+% Copyright (C) 2010 by Matthew A. Tucker
+% ----------------------------------- 
+% 
+% This file may be distributed and/or modified under the 
+% conditions of the LaTeX Project Public License, either version 1.3 
+% of this license or (at your option) any later version. 
+% The latest version of this license is in: 
+% 
+%	http://www.latex-project.org/lppl.txt 
+% 
+% and version 1.3 or later is part of all distributions of LaTeX 
+% version 2005/12/01 or later.
+% 
+% \fi 
+% 
+% \iffalse 
+%<*driver> 
+\ProvidesFile{slugpubs-asc.dtx} 
+%</driver> 
+%<class>\NeedsTeXFormat{LaTeX2e}[1999/12/01] 
+%<class>\ProvidesClass{slugpubs-asc}
+%<*class>
+[2010/10/01 v1.0 Class for SlugPubs *ASC Publications, by Matthew A. Tucker]
+
+%</class>
+% 
+%<*driver> 
+\documentclass{ltxdoc}
+\DisableCrossrefs
+\CodelineNumbered
+\RecordChanges 
+\begin{document}
+\DocInput{slugpubs-asc.dtx} 
+\end{document} 
+%</driver> 
+% \fi
+% 
+% \CheckSum{0} 
+% 
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+%%
+% 
+% \changes{v1.0}{2010/09/09}{Initial release.} 
+%
+% \GetFileInfo{slugpubs-asc.dtx} 
+% 
+% \DoNotIndex{\#,\$,\%,\&,\@,\\,\{,\},\^,\_,\~,\ } 
+% \DoNotIndex{\@ne,\newboolean,\setboolean,\ifthenelse,\selectfont} 
+% \DoNotIndex{\advance,\begingroup,\catcode,\closein} 
+% \DoNotIndex{\closeout,\day,\def,\edef,\else,\empty,\endgroup}
+% 
+% \title{The \textsf{slugpubs-asc} class\thanks{This document 
+%	corresponds to \textsf{slugpubs-asc}~\fileversion, 
+%	dated \filedate.}} 
+% \author{Matthew A. Tucker \\ \texttt{matucker@ucsc.edu}} 
+% 
+% \maketitle 
+% 
+% \begin{abstract} 
+%	This class extends the native {\sf article} class of \LaTeX{} to comply
+%	with the stylesheet for *ASC series publications developed by the
+%	Linguistics Research Center. Beyond simple headings style changes, this class
+%	also provides several macros to automate certain parts of the construction
+%	of *ASC manuscripts and redefines the {\tt abstract} environment.
+% \end{abstract}
+% \section{Introduction} 
+% \label{sec:intro}
+% 
+% This class provides an extension of the \textsf{article} document class to conform
+% with the specifications for *ASC series publications released by the Linguistics 
+% Research Center at the University of California, Santa Cruz. The current version of the 
+% style guide is avaialable at: \texttt{http://people.ucsc.edu/~matucker/masc/styleguide}.
+% For more information on the Linguistics Research Center events and publications, see
+% the LRC website at \texttt{http://lrc.ucsc.edu}.
+% 
+% \section{Macros and Usage of {\sf slugpubs-asc} Commands}
+% \label{sec:macros}
+% 
+% This section gives an overview of the main features and activity of the {\sf slugpubs-asc} class,
+% which should suffice for most users. For more detailed information, advanced users can see the
+% implementation in \S\ref{sec:implementation}.
+% 
+% \subsection{Package Options}
+% \label{sub:options}
+% 
+% Most of the time there will be no need to change much of the default behavior of the class, but
+% the package does provide some options to help with debugging, should the need arise. They are, along
+% with their default behavior:
+% 
+% \begin{itemize}
+% \item[{\tt notwoside}] By default, we prefer the {\sf article} class to come loaded for {\tt twosided}, so that
+% the headings can alternate on odd/even pages. However, {\tt notwoside} supresses this behavior.
+% \item[{\tt nohyphenate}] This option makes \LaTeX{} hyphenate like M\$Word. It is mainly for
+% editorial failsafe. Please do not use it.
+% \item[{\tt pagenums}] By default we supress page numbers so that the editors can add them in the master.
+% However, {\tt pagenums} will re-enable page numbers. You can use this to check page crossreferencing
+% consistency within your document.
+% \item[{\tt notimes}] By default we typeset in Times New Roman. {\tt notimes} disables this behavior and tries
+% to set the entire document in {\tt T1} Computer Modern. Useful for font debugging purposes.
+% \end{itemize}
+% 
+% \subsection{Loaded Packages}
+% \label{sub:required-packages}
+% 
+% The {\sf slugpubs-asc} class loads several packages to help with redefinitions of several of the 
+% \LaTeX{} defaults. This section documents which packages are used (and for what), so that you 
+% can attempt to avoid using local packages which could cause conflicts. The most important of these
+% is that the package requires some macros distributed in the somewhat hard-to-find {\tt atbeginend.sty} file.
+% This file is distributed with this class, so make sure you put both in a place where \LaTeX can see them.
+% 
+% The page margins are setup with a combination of {\sf fanchdr} and {\sf geometry} magics. The headers
+% are also preset when |\maketitle| is called, so it is best if you leave the headers to us and not
+% attempt to define headers yourself. 
+% 
+% Fonts for the {\sf slugpubs-asc} class are loaded by calls to {\sf txfonts} (for math support),
+% {\sf times}, and {\sf tipa}, in that order. This should satisfy the needs of most users,
+% it is important to note that the order in which these packages are declared in the class is
+% semantically contentful. Therefore, you should not try to define extra fonts locally unless you
+% desperately need them. If you need to, be aware that the class uses {\tt T1} encoding
+% throughout, so any font you load should play nice with that encoding.
+% However, if you need a font that is in the extended {\sf tipa} interface (provided)
+% in the package {\sf tipx}, that package should be fine if called in the preamble of your document. If the 
+% {\tt notimes} option is given to the class, {\sf txfonts} and {\sf times} are not loaded.
+% 
+% The sectioning commands are redefined almost entirely in macros provided by the {\sf titlesec}
+% package, which behaves oddly if you attempt to re-define sectioning commands yourself. If you believe
+% you are in a position to need to re-define sectioning commands, please contact the class maintainer.
+%
+% In sum, the following classes should {\bf not} be called by the user, as doing so will lead to errors:
+%
+% \begin{itemize}
+% 	\item {\sf tipa}
+%	\item {\sf times}
+%	\item {\sf caption}
+% \end{itemize}
+% 
+% \noindent If you encounter any trouble with packages not on this list, please contact the document maintainer.
+% 
+% \DescribeEnv{appendices}
+% 
+% \LaTeX{}'s native appendix support (via the |\appendix| command) doesn't allow for easy redefinition of
+% sectioning commands inside the appendices distinct from the regular document section headings. Therefore,
+% this class loads {\sf appendix}. This enables use of the {\tt appendix} environment. Any sectioning commands
+% (\emph{e.g.,} |\section|) inside a {\tt appendices} environment are reinterpreted with a leading letter.
+% This has been tested for the *ASC stylesheet to |\subsection| depth.
+% 
+% So, to get appendices in your document, simply encose the appendix |\section| inside a |\begin{appendices}| \ldots
+% |\end{appendices}|. Note that sections inside {\tt appendices} environments are not labelled with the word
+% ``Appendix," so reference to the appendices in the main text should look like references to \emph{e.g.,} {\tt figure}s,
+% as in: ``\ldots for more information, see the data in Appendix|~\ref{\meta{label}}|.''
+% 
+% Bibliography support in the *ASC series is provided by {\sf natbib}, and uses the {\tt linquiry2.sty} file reflecting
+% the Linguistic Inquiry 1995 stylesheet revision. See the {\sf natbib} documentation for usage instructions. Note that we
+% load all the relevant bibliographic styles (\emph{i.e.,} |\bibpunct|) for you, so you do not need to declare those
+% macros yourself.
+% 
+% Finally, the package makes internal use of {\sf caption} and {\sf multicol}, though fortunately those packages get along
+% quite well with others. However, should you need them locally, you need not re-declare them.  Note also that we do not
+% load a linguistics example macro set (\emph{i.e.,} {\sf covington}, {\sf gb4e}, or {\sf linguex}), in part because people
+% have personal preferences but also because it is important that these packages are the last loaded, since they
+% often cause trouble. Therefore, their declaration is left up to the user.
+% 
+% \subsection{Title Commands}
+% \label{sub:title-commands}
+%
+% Most of the title and header commands from the usual \LaTeX{} {\sf article} class,
+% and they work much in the way you expect for single-authored papers, though we
+% discuss their usage here. Please declare all these macros after |\begin{document}|
+% but before the use of |\maketitle|.
+% 
+% \DescribeMacro{\author} \DescribeMacro{\institution}
+% \begin{itemize}
+% 	\item{}\cmd{\author} \marg{author}
+%	\item{}\cmd{\institution} \marg{institution}
+% \end{itemize}
+%
+% The author command works exactly the same as the \cmd{\author} command in the \LaTeX{} {\sf article}
+% class, though it is supplemented in this class by the \cmd{\institution}, which takes one argument,
+% the current or correspondence institution of the author.
+%
+% \DescribeMacro{\thanks}
+%
+% \begin{itemize}
+%	\item{}\cmd{\thanks} \marg{text}
+% \end{itemize}
+%
+% We extend the \LaTeX{} \cmd{\thanks} command, most of which has to do with visual appearance. To use
+% the new |\thanks| command, simply declare |\thanks| the way you normally would, except do it
+% \emph{outside} the |\title| and |\subtitle| environment. See the example document provided with this
+% file for an example. {\sf slugpubs-asc} will take care of putting the footnote in the right place for
+% you.
+% 
+% Because of the font specifications in the *ASC Stylesheet, \LaTeX{} sometimes quibbles about the
+% exact character used to typeset the |\footnotemark|. This will result in a substitution by the
+% \LaTeX{} font selection schema. This should not result in a size difference greater than 0.75pt. On 
+% the author's machine, this error looks like this:
+% 
+% \begin{verbatim}
+% LaTeX Font Warning: Font shape `U/wasy/m/n' in size <18> not available
+% (Font)              size <17.28> substituted on input line 36.
+%
+%
+% LaTeX Font Warning: Font shape `U/wasy/m/n' in size <12.595> not available
+% (Font)              size <12> substituted on input line 36.
+% \end{verbatim}
+% 
+% If, when typesetting your document, you see size substitutions $> 0.75$pt or significantly
+% different from the above error, contact the document maintainer by the address listed above.
+%
+% \DescribeMacro{\title} \DescribeMacro{\subtitle}
+%
+% \begin{itemize}
+%	\item{}\cmd{\title} \marg{title-text}
+%	\item{}\cmd{\subtitle} \marg{subtitle-text}
+% \end{itemize}
+%
+% Unfortunately, the Stylesheet asks for differential sizes for the document title and subtitle (if any exists).
+% If you wish to use a post-modern-y subtitle in your document, specify both |\title| \emph{and} |\subtitle|. If
+% you do not wish to use a subtitle, simply call |\title| the way you normally would in an {\sf article}.
+% Note that the class includes a colon separating the |\title| and |\subtitle|. Thus, do not include the colon
+% yourself in either the arguments to |\title| nor |\subtitle|.
+%
+% \subsubsection{Multiply-Authored Documents}
+% \label{ssub:multiple-authors}
+%
+% Things get a little more complicated given the stylesheet's constraints on the layout of author names in a multiply-authored
+% document. There is support in the {\sf slugpubs-asc} class for two-author documents, commands for which are described
+% here. If you need support for more than two authors for your manuscript, contact the package maintainer.
+% 
+% \DescribeMacro{\authorone} \DescribeMacro{\authortwo}
+% 
+% \begin{itemize}
+% 	\item{} \cmd{\authorone} \marg{author-name}
+%	\item{} \cmd{\authortwo} \marg{author-name}
+% \end{itemize}
+% 
+% The basic difference between single and multiple-author document is that we replace the |\author| and |\institution| commands
+% with corresponding |\authorone|, |\authortwo|, and |\institution| commands. Use these as though they were the regular
+% single-author equivalents discussed above. However, please be sure to declare \emph{both} |\authorone| and |\authortwo| if one
+% is used; the class will most likely balk or produce strange results if you do not.
+% 
+% The commands for institutions for multiple authors work much as you would expect:
+%
+% \begin{itemize}
+%	\item{} \cmd{\institutionone} \marg{institution1}
+%	\item{} \cmd{\institutiontwo} \marg{institution2}
+% \end{itemize}
+%
+% When the document is typeset, |\authorone| is associated with the macro |\institutionone| and likewise for the |two| pair. The class will
+% ensure that |\authorone| is listed first, then |\authortwo|, according to the definitions in the *ASC Stylesheet.
+%
+% \subsection{Abstracts and Keywords}
+% \label{sub:abstracts-keywords}
+%
+% The *ASC Stylesheet calls for a particular set of margins and smaller typeface for the |abstract| environment than is provided
+% by default in \LaTeX's {\sf article} class. We take care of that for you with some behind the scenes \LaTeX{} magic. We also provide a 
+% command for helping use keywords according to the Stylesheet.
+%
+% \DescribeMacro{\keywords}
+%
+% The {\sf slugpubs-asc} class provides a |\keywords| command, which should be used on the last line of the |abstract|.
+% This command will typeset `\textbf{Keywords: }' and then its argument. In sum, it has the syntax:
+%
+% \begin{itemize}
+%	\item{} \cmd{\keywords} \marg{keyword-list}
+% \end{itemize}
+% 
+% \StopEventually{} 
+%
+% \section{Implementation} 
+% \label{sec:implementation}
+%
+% This section walks through the code of the file line-by-line and discusses the implementation of the {\sf slugpubs-asc}
+% class, as well as some of the oddities you might expect of its behavior.
+%
+% \subsection{Options Processing}
+%	\label{sub:options-implementation}
+%
+%	Load {\sf ifthen} so that we don't have to hack around in \TeX, this makes the boolean switches a bit easier to read. We also
+% use {\sf atbeginend} to make things a bit easier with abstracts.
+%    \begin{macrocode}
+\RequirePackage{ifthen}
+\RequirePackage{atbeginend}
+
+%    \end{macrocode}
+%
+% Then we deal with the creation of several flags to hold options for the package.
+%
+%    \begin{macrocode}
+\newboolean{hyphenate}
+\setboolean{hyphenate}{true}
+\newboolean{nopagenums}
+\setboolean{nopagenums}{true}
+\newboolean{times}
+\setboolean{times}{true}
+\newboolean{twosided}
+\setboolean{twosided}{true}
+
+%    \end{macrocode}
+%
+% The basic idea is that each of these booleans holds the value of that particular option, so that we can refer to its presence later.
+% We use this immediately for the processing of the options provided by {\sf slugpubs-asc}.
+%    \begin{macrocode}
+\DeclareOption{notwoside}{\setboolean{twosided}{false}}
+\DeclareOption{nohyphenate}{\setboolean{hyphenate}{false}}
+\DeclareOption{pagenums}{\setboolean{nopagenums}{false}}
+\DeclareOption{notimes}{\setboolean{times}{false}}
+
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+
+\ProcessOptions \relax
+
+%    \end{macrocode}
+%
+% \subsection{Package Loading}
+% \label{sub:package-loading-implementation}
+%
+% Since {\sf slugpubs-asc} is just an extension of {\sf article}, we don't do a lot of this coding ourselves, but rely on other
+% packages. See \S\ref{sub:required-packages}, above, for more information. The first thing we do is pass along the |twosided|
+% option to the document class. The Slugpubs *ASC stylesheet requires US Letter paper and 11pt body fontsize --- additionally, 
+% we turn on draft that way you can't accidentally overfill your hboxes.
+%    \begin{macrocode}
+\ifthenelse{\boolean{twosided}}%
+	{\LoadClass[letterpaper,11pt,twoside,draft]{article}}%
+	{\LoadClass[letterpaper,11pt,draft]{article}}
+	
+%    \end{macrocode}
+%
+% Setting up the main document margins is accomplished by use of the {\sf geometry} package.
+%    \begin{macrocode}
+\RequirePackage%
+	[letterpaper,left=1.0in,right=1.0in,top=1.0in,bottom=1.0in,foot=0.75in]%
+	{geometry}
+	
+%    \end{macrocode}
+%
+% The stylesheet requires the use of Times New Roman, which is, fortunately for us, implemented as its own package in
+% \LaTeX. We also load {\sf TIPA} for the use of phonetic symbols.
+%    \begin{macrocode}
+\ifthenelse{\boolean{times}}
+	{\RequirePackage{txfonts}
+	\RequirePackage[T1]{fontenc}
+	\RequirePackage{times}
+	\RequirePackage[T1]{tipa}}
+%    \end{macrocode}
+%
+% If we are not typsetting with Times (for draft purposes), then we do not load times.
+%    \begin{macrocode}
+	{\RequirePackage[T1]{fontenc}
+	\RequirePackage[T1]{tipa}}
+	
+%    \end{macrocode}
+%
+% We'll need fancyhdr for typesetting the copyright notice required by the stylesheet.
+%    \begin{macrocode}
+\RequirePackage{fancyhdr}
+\RequirePackage{abstract}
+%    \end{macrocode}
+%
+% We'll use titlesec to format section titles according to the stylesheet.
+%    \begin{macrocode}
+\RequirePackage[noindentafter]{titlesec}
+%    \end{macrocode}
+% 
+% Additionally, we want to make sure that appendices are handled with a bit more care than they would be if the normal
+% \LaTeX{} command |\appendix| were thrown right before the appendices.
+%    \begin{macrocode}
+\RequirePackage[title]{appendix}
+%    \end{macrocode}
+% 
+% We use {\sf natbib} for formatting the bibliography, which means you should use the commands defined in that package.
+%    \begin{macrocode}
+\RequirePackage[longnamesfirst]{natbib}
+%    \end{macrocode}
+% 
+% The *ASC series prefers if table/figure captions are labeled bold.
+%    \begin{macrocode}
+\RequirePackage[labelfont=bf]{caption}
+%    \end{macrocode}
+% 
+% Finally, this is easier than actually aligning the author names ourselves in the case of multiply-authored documents.
+%    \begin{macrocode}
+\RequirePackage{multicol}
+
+%    \end{macrocode}
+% 
+% \subsection{Title Formatting}
+% \label{sub:title-formatting}
+% 
+% Most of the work this class does is in typesetting the title. We need quite a few internal variables to take care of that, which
+% are set as booleans. You should not redefine these values, ever.
+%    \begin{macrocode}
+\newboolean{haveAuthor}
+\newboolean{haveTitle}
+\setboolean{haveTitle}{false}
+\newboolean{haveSubTitle}
+\newboolean{haveInstitution}
+\setboolean{haveInstitution}{false}
+
+\newboolean{twoAuthor}
+\setboolean{twoAuthor}{false}
+
+%    \end{macrocode}
+% 
+% \begin{macro}{\author}
+% \begin{macro}{\institution}
+% If you set the |\author| command, then we want to set the appropriate flag so that we know we're in a single-author document. 
+% If |\author| is set, then one should also set |\institution|, as well.
+%    \begin{macrocode} 
+\renewcommand{\author}[1]%
+{\gdef\@slugauthor{#1}\gdef\@author{#1}\setboolean{haveAuthor}{true}}
+
+\newcommand{\institution}[1]%
+{\gdef\@institution{#1}\setboolean{haveInstitution}{true}}
+
+%    \end{macrocode} 
+% \end{macro}
+% \end{macro}
+% 
+% \begin{macro}{\title}
+% \begin{macro}{\subtitle}
+% Then we set up the macros that hold the |\title| and |\subtitle|.
+%    \begin{macrocode}
+\renewcommand{\title}[1]%
+{\gdef\@slugtitle{#1}\gdef\@title{#1}\setboolean{haveTitle}{true}}
+
+\newcommand{\subtitle}[1]%
+{\gdef\@slugsubtitle{#1}\setboolean{haveSubTitle}{true}}
+
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% 
+% \begin{macro}{\thanks}
+% We're going to need to redefine some parts of the |\thanks| command later on, so we mae sure that we can refer to it now.
+%    \begin{macrocode}
+\newboolean{hasackfn}
+\setboolean{hasackfn}{false}
+
+\newcommand{\ackfn}[1]{\gdef\@ckfn{#1}\setboolean{hasackfn}{true}}
+\renewcommand{\thanks}[1]{\ackfn{#1}}%
+\newcommand\theackfn%
+{\def\thefootnote{\fnsymbol{footnote}}\footnote[1]{\@ckfn}}
+
+%    \end{macrocode}
+%\end{macro}
+% 
+% \begin{macro}{\authorone}
+% \begin{macro}{\authortwo}
+% \begin{macro}{\institutionone}
+% \begin{macro}{\institutiontwo}
+% The two-author commands work just the same, and come in matched pairs of |\author| and |\institution| commands. Note that
+% one of these should not be declared in the absence of the other.
+%    \begin{macrocode}
+\newcommand{\authorone}[1]%
+{\gdef\@slugauthorone{#1}\setboolean{twoAuthor}{true}}
+
+\newcommand{\authortwo}[1]%
+{\gdef\@slugauthortwo{#1}\setboolean{twoAuthor}{true}}
+
+\newcommand{\institutionone}[1]{\gdef\@institutionone{#1}}
+\newcommand{\institutiontwo}[1]{\gdef\@institutiontwo{#1}}
+
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% 
+% Finally, we want to make sure that if we're using {\sf multicol} to typeset multiple author names later, there's not
+% too much space between the author names.
+%    \begin{macrocode}
+\setlength{\multicolsep}{0.0pt}
+
+%    \end{macrocode}
+% 
+% \begin{macro}{\maketitle}
+% Now the class begins the task of redefining |\maketitle| to produce the required results.
+%    \begin{macrocode}
+\renewcommand{\maketitle}{%
+%    \end{macrocode}
+% 
+% Since we're using {\sf fancyhdr} to typeset the headers, we make sure that the first page doesn't have any header information
+% by making the call to |\pagestyle| in the |\maketitle| command.
+%    \begin{macrocode}
+	\thispagestyle{empty}
+	
+%    \end{macrocode}
+% 
+% The whole thing is centered, so we call that environment now.
+%    \begin{macrocode}
+	\begin{center}
+%    \end{macrocode}
+% 
+% The title should be 24 pt Times New Roman with appropriate spacing after titles and subtitles.
+%    \begin{macrocode}
+  \ifthenelse{\boolean{haveTitle}}{
+         \fontsize{24pt}{24pt}
+         \selectfont
+         \textsc{\@title}\ifthenelse{\boolean{haveSubTitle}}
+			{:\\\vspace{18pt}}{\ifthenelse{\boolean{hasackfn}}
+			{\theackfn}{}\\\vspace{12pt}}
+         \normalsize
+     }{}
+
+%    \end{macrocode}
+% 
+% If we do have a subtitle, we want to make sure it is in the correct typeface.
+%    \begin{macrocode}
+\ifthenelse{\boolean{haveSubTitle}}{
+\fontsize{18pt}{18pt}
+\selectfont
+\textsc{\@slugsubtitle}\ifthenelse{\boolean{hasackfn}}{\theackfn}{}\\
+\vspace{12pt}
+}{}
+		
+%    \end{macrocode}
+% 
+% Assuming we're in single-author mode, we typeset the author's name here.
+%    \begin{macrocode}
+		\ifthenelse{\boolean{haveAuthor}}{
+    		\fontsize{12pt}{12pt}
+    		\selectfont
+    		\textsc{\@author}
+    		\normalsize
+    		\selectfont
+		}{}
+		
+%    \end{macrocode}
+% 
+% If we executed the last bit of code, then there's only one institution, too, and we typeset that here.
+%    \begin{macrocode}
+		\ifthenelse{\boolean{haveInstitution}}{
+    		\normalsize
+    		\selectfont
+    		\textit{\@institution}
+			\vspace{12pt}
+		}{}
+		
+%    \end{macrocode}
+% 
+% Now the mess begins. If any of the code coming up executes, then that means that there are two authors present.
+% This is done with a {\tt multicols} environment.
+%    \begin{macrocode}
+		\ifthenelse{\boolean{twoAuthor}}{
+			\begin{multicols}{2}
+%    \end{macrocode}
+% 
+% The first author and institution are typeset as though it were a single-author document, except in the left hand of a two-column
+% vertical list.
+%    \begin{macrocode}
+				\fontsize{12pt}{12pt}
+				\selectfont
+				\textsc{\@slugauthorone}\\
+				\normalsize
+				\selectfont
+				\textit{\@institutionone}\\
+			\columnbreak
+			
+%    \end{macrocode}
+% 
+% The author author, |\authortwo|, is typeset in the righthand column in the exact same way.
+%    \begin{macrocode}
+				\fontsize{12pt}{12pt}
+				\selectfont
+				\textsc{\@slugauthortwo}\\
+				\normalsize
+				\selectfont
+				\textit{\@institutiontwo}
+%    \end{macrocode}
+% 
+% Nearly finally, we do some wrap-up code execution to close all the environments.
+%    \begin{macrocode}
+			\end{multicols}
+			\vspace{6pt}
+%    \end{macrocode}
+% 
+% However, we're not quite done --- we hack around the issue of getting two authors' names into the header.
+% This is done by redefining |\author| so that it has both names in it.
+%    \begin{macrocode}
+			\author{\@slugauthorone\ \& \@slugauthortwo}
+			\vspace{6pt}
+%    \end{macrocode}
+% 
+% Finally, we run the last of the closing commands.
+%    \begin{macrocode}
+		}{}
+        
+    \end{center}
+	\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.0pt}
+	\fancyhead{}
+	\fancyhead[OC]{\fontsize{10pt}{10pt}\selectfont\rm\@title}
+	\fancyhead[EC]{\fontsize{10pt}{10pt}\selectfont\rm\@author}
+	\fancyfoot{}
+	\ifthenelse{\boolean{nopagenums}}{}{\fancyfoot[C]{\thepage}}
+}
+
+%    \end{macrocode}
+% \end{macro}
+% 
+% \subsection{Sectioning Commands and Spacing}
+% \label{sub:sectioning-implementation}
+% 
+% If for some reason, you want LaTeX to hyphenate like MS word this will do it,
+% even though this is really ugly and violates every typographic convention. 
+% The following parameter settings discourage TeX's layout algorithm from 
+% breaking lines with syllabic hyphens. This can be enabled by the "nohyphenate" 
+% class option, which is off by default.
+%    \begin{macrocode}
+\ifthenelse{\boolean{hyphenate}}{}{
+    \hyphenpenalty=5000
+    \tolerance=1000
+}
+
+%    \end{macrocode}
+% 
+% We don't line dangling lines (\emph{i.e.,} widows or orphans), so we set a few penalties
+% in order to help \LaTeX{} along.
+%    \begin{macrocode}
+\widowpenalty=15999
+\clubpenalty=15999
+\raggedbottom
+
+%    \end{macrocode}
+% 
+% We also want to make sure that paragraph indents are half an inch, which is a bit larger than
+% {\sf article}'s default.
+%    \begin{macrocode}
+\parindent=0.50in
+
+%    \end{macrocode}
+% 
+% The stylesheet requires 9pt footnotes with a 0.5pt rule. We set that here.
+%    \begin{macrocode}
+\renewcommand{\@makefntext}[1]%
+{\noindent\makebox[1.8em][r]%
+	{\fontsize{9pt}{9pt}\selectfont\@makefnmark}%
+	\fontsize{9}{9}\selectfont #1}
+
+\renewcommand\footnoterule%
+{\vspace*{-3pt}\hrule width 2in height 0.5pt \vspace*{2.5pt}}
+
+%    \end{macrocode}
+% We also need to reduce the spacing around captions in tables and figures.
+%    \begin{macrocode}
+\setlength{\abovecaptionskip}{12pt}
+\setlength{\belowcaptionskip}{-5pt}
+
+%    \end{macrocode}
+% 
+% The section headings are all redefined with {\sf titlesec}, and that is done
+% \emph{en masse} at this point.
+%    \begin{macrocode}
+\titlelabel{\thetitle\ }
+\titleformat*{\section}{\fontsize{14pt}{14pt}\bf}
+\titleformat*{\subsection}{\fontsize{12pt}{12pt}\itshape}
+\titleformat*{\subsubsection}{\fontsize{12pt}{12pt}\rm}
+\titlespacing{\section}{0pt}{18pt}{12pt}
+\titlespacing{\subsection}{0pt}{18pt}{12pt}
+\titlespacing{\subsubsection}{0pt}{18pt}{12pt}
+
+%    \end{macrocode}
+% 
+% We set up the header stuff with {\sf fancyhdr}, and we want the page style to be |fancy|.
+%    \begin{macrocode}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0.0pt}
+\fancyhead{}
+\fancyhead[OC]{\fontsize{10pt}{10pt}\selectfont\rm\@title}
+\fancyhead[EC]{\fontsize{10pt}{10pt}\selectfont\rm\@author}
+\fancyfoot{}
+\ifthenelse{\boolean{nopagenums}}{}{\fancyfoot[C]{\thepage}}
+
+
+%    \end{macrocode}
+% 
+% Finally, we redefine the way appendices work with the {\sf appendix} package.
+%    \begin{macrocode}
+\renewcommand\appendixname{Appendix\ }
+
+%    \end{macrocode}
+% 
+% \subsection{Bibliography Setup}
+% \label{sub:bibliography-implementation}
+% 
+% The hanging indent in a bibliography for *ASC publications should be one-quarter inch.
+%    \begin{macrocode}
+\setlength{\bibhang}{0.25in}
+
+%    \end{macrocode}
+% 
+% We also set the punctuation in the bibliography and call the |linquiry.bst| style file.
+% This typesets the bibliography with the Linguistic Inquiry style file, 1995 revision.
+%    \begin{macrocode}
+\bibpunct[:]{(}{)}{;}{a}{,}{;}
+\setlength{\bibsep}{0.0pt}
+\bibliographystyle{linquiry2}
+%    \end{macrocode}
+% 
+% \subsection{Some Helpful Macros}
+% \label{sub:helpful-implementations}
+% 
+% The last two things the package does is declare some useful macros for *ASC typesetting.
+%
+% \begin{macro}{\keywords}
+% The |\keywords| command is used to display a list of three to four keywords at the end of the |abstract|
+%    \begin{macrocode}
+\newcommand{\keywords}[1]%
+{\vspace{12pt}\par\noindent\textbf{Keywords: }\normalfont\rm #1}
+
+%    \end{macrocode}
+% \end{macro}
+% 
+% Finally, we replace the regular |abstract| environment with a modified version.
+%    \begin{macrocode}
+\setlength{\absleftindent}{1in}
+\setlength{\absrightindent}{1in}
+\renewcommand\abstractname{}
+\renewcommand\abslabeldelim{}
+\setlength\abstitleskip{-3em}
+\AfterBegin{abstract}%
+	{\fontsize{9pt}{9pt}\selectfont\noindent\hspace{-0.3em}}
+
+%    \end{macrocode}
+%
+% \section{Conclusion and Thanks}
+% \label{sec:conclusions}
+% Special thanks to Max Bane, whose {\sf cascadilla} class provided the basis for most of the development of this class.
+% Thanks to Junko It\^o for initially suggesting to me the idea of a unified *ASC stylesheet, and thank you to
+% Anie Thompson and Nick LaCara for help with the stylesheet specifications.
+% \Finale
+\endinput
