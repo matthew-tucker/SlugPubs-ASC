@@ -22,7 +22,7 @@ To invoke the package in LaTeX:
 
 `\usepackage{slugpubs-asc}`
 
-### Useage Comments
+### Usage Comments
 
 The class is written in the literate programming style using a documented source file. A `.cls` file is included in the github repo for convenience only - the best practice really should be to create your own using the above installation procedure. See the documentation which is created (or here in the repo) for more information on package options, _etc._
 
