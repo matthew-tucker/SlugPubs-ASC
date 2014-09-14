@@ -18,7 +18,7 @@ To install the class, creating the documentation and class file if it doesn not 
 
 `% latex slugpubs-asc.ins`
 
-To invoke the package in LaTeX:
+To invoke the package in LaTeX or XeLaTeX:
 
 `\usepackage{slugpubs-asc}`
 
